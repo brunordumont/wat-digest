@@ -1,0 +1,41 @@
+name: Daily News Digest
+
+on:
+  schedule:
+    - cron: '0 11 * * *'  # 08:00 BRT (UTC-3)
+  workflow_dispatch:       # manual trigger
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install anthropic feedparser python-dotenv
+
+      - name: Create .env
+        run: |
+          echo "ANTHROPIC_API_KEY=${{ secrets.ANTHROPIC_API_KEY }}" >> .env
+          echo "EMAIL_SENDER=${{ secrets.EMAIL_SENDER }}" >> .env
+          echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> .env
+          echo "EMAIL_RECIPIENT=${{ secrets.EMAIL_RECIPIENT }}" >> .env
+          echo "RSS_SOURCES=${{ secrets.RSS_SOURCES }}" >> .env
+          echo "NICHE_KEYWORDS=${{ secrets.NICHE_KEYWORDS }}" >> .env
+
+      - name: Fetch news
+        run: python tools/fetch_news.py --days 3 --output .tmp/news_raw.json
+
+      - name: Filter news
+        run: python tools/filter_news.py --input .tmp/news_raw.json --output .tmp/news_filtered.json
+
+      - name: Evaluate with AI
+        run: python tools/evaluate_news.py --input .tmp/news_filtered.json --output .tmp/news_evaluated.json
+
+      - name: Send email
+        run: python tools/send_email.py --input .tmp/news_evaluated.json
