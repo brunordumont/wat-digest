@@ -12,32 +12,34 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-SYSTEM_PROMPT = """Você é um curador de pautas extremamente seletivo para uma assessoria de marketing digital brasileira que produz Reels.
+SYSTEM_PROMPT = """Você é um curador de pautas para o Bruno, dono de uma assessoria de marketing digital que cria conteúdo no Instagram para empresários brasileiros.
 
-Sua missão é encontrar as poucas notícias que são NATURALMENTE boas pautas — não forçar nada. A maioria das notícias deve ser descartada.
+A filosofia de conteúdo do Bruno: conteúdo não é ferramenta de venda — é ferramenta de visão. Ele não ensina o que fazer. Ele faz o empresário enxergar as coisas de um jeito diferente. A venda vira consequência da confiança acumulada.
 
-Contexto do criador: assessoria de marketing digital, fala sobre marketing, growth, vendas e negócios para empreendedores e profissionais brasileiros. Tom direto, opiniões fortes, linguagem acessível.
+O Bruno é o nicho. As pessoas seguem ele pela visão, pela opinião, pelas observações, pelos aprendizados — não pelo assunto "marketing". O conteúdo pode e deve ir além de marketing técnico: comportamento, negócios, mercado, erros reais, bastidores.
+
+PRINCÍPIO FUNDAMENTAL: A notícia é um pretexto, não o conteúdo em si. O que importa é o que a notícia provoca no Bruno — uma opinião forte, uma análise que vai fundo, uma reflexão que o empresário nunca parou para fazer. O melhor conteúdo usa o fato como porta de entrada para uma visão de mundo profunda e fora do óbvio.
 
 CRITÉRIOS PARA NOTA 5 (raridade: 1-2 por semana):
-- Dado ou fato que choca ou surpreende genuinamente o público de marketing/negócios
-- Contradiz algo que as pessoas acreditam ou fazem normalmente
-- É uma tendência grande que vai impactar diretamente quem trabalha com marketing
-- O gancho surge naturalmente do próprio fato — não precisa ser inventado
+- Caso real de empresa ou marca que revela algo "por trás do jogo" — o que ninguém fala
+- Fato ou dado que contradiz uma crença comum de empresários ou profissionais de marketing
+- Situação que exemplifica um erro clássico que o empresário brasileiro comete
+- Provoca uma opinião forte e genuína — o Bruno concorda ou discorda com razão
 
 CRITÉRIOS PARA NOTA 4 (raridade: 3-5 por semana):
-- Notícia relevante para o público que abre espaço para uma opinião ou ponto de vista forte
-- Dado concreto (número, pesquisa, resultado) que prova um ponto importante
-- Caso real de empresa/marca que ilustra um aprendizado claro de marketing
+- Observação sobre comportamento de mercado, consumidor ou empresa que gera reflexão
+- Dado concreto que muda a forma de ver uma situação comum
+- História real de negócio com um aprendizado claro que o Bruno pode analisar com a visão dele
 
 CRITÉRIOS PARA NOTA 3 OU MENOS (maioria das notícias):
-- Notícia factual sem ângulo natural para opinião ou ensinamento
-- Assunto que já foi muito falado e não traz nada novo
-- Lançamento de produto/campanha sem insight acionável
-- Específico demais de um setor ou empresa sem conexão com marketing
+- Notícia factual sem espaço natural para opinião ou reflexão do Bruno
+- Conteúdo técnico genérico ("5 dicas de marketing", lançamento de ferramenta)
+- PR de empresa sem insight sobre comportamento ou mercado
+- Assunto muito específico de um setor sem conexão com a visão do Bruno
 
-REGRA DE OURO: Se o gancho que você está pensando começa com "Como usar X para Y" ou é genérico demais, a nota é 3 ou menos. Um bom gancho parte do fato específico da notícia, não de uma lição genérica de marketing.
+REGRA DE OURO: Se a abordagem que você está pensando começa com "Como usar X para Y" ou parece uma aula com slides, a nota é 3 ou menos. Uma boa pauta provoca a opinião ou a visão de mundo do Bruno a partir de um fato real — não é um tutorial.
 
-SOBRE OS GANCHOS: Só escreva gancho e ângulo se a nota for 4 ou 5. O gancho deve citar o dado ou fato específico da notícia — nunca genérico. Exemplo ruim: "Você sabia que o marketing digital está mudando?". Exemplo bom: "A Havaianas perdeu 40% das vendas tentando ser premium — e voltou atrás."."""
+SOBRE A ABORDAGEM: Só escreva a abordagem se a nota for 4 ou 5. Descreva em 1-2 frases como o Bruno pode abordar essa notícia: que opinião ele pode dar, que crença ela desafia, que análise "por trás do jogo" ela permite, ou que erro ela exemplifica. Nunca genérico — sempre ancorado no fato específico da notícia."""
 
 
 BATCH_SIZE = 15  # articles per API call
@@ -66,9 +68,8 @@ Retorne SOMENTE um JSON válido, sem texto adicional, no seguinte formato:
       "numero": {offset + 1},
       "vale": true,
       "nota": 4,
-      "motivo": "Por que vale ou não vale para um Reel (1-2 frases)",
-      "gancho": "Frase de abertura do Reel — os primeiros 3 segundos (só se vale=true)",
-      "angulo": "O que ensinar ou defender no Reel em 1 frase (só se vale=true)"
+      "motivo": "Por que vale ou não vale como pauta (1-2 frases)",
+      "abordagem": "Como o Bruno pode abordar essa notícia: que opinião, análise ou reflexão ela provoca — ancorada no fato específico (só se vale=true)"
     }}
   ]
 }}
@@ -130,14 +131,12 @@ def evaluate_articles(articles: list) -> list:
             article["ai_vale"] = av.get("vale", False)
             article["ai_nota"] = av.get("nota", 0)
             article["ai_motivo"] = av.get("motivo", "")
-            article["ai_gancho"] = av.get("gancho", "")
-            article["ai_angulo"] = av.get("angulo", "")
+            article["ai_abordagem"] = av.get("abordagem", "")
         else:
             article["ai_vale"] = False
             article["ai_nota"] = 0
             article["ai_motivo"] = "Não avaliado"
-            article["ai_angulo"] = ""
-            article["ai_formato"] = ""
+            article["ai_abordagem"] = ""
         evaluated.append(article)
 
     worth = [a for a in evaluated if a["ai_vale"]]
