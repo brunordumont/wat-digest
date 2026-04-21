@@ -53,11 +53,12 @@ NOTA 5 — raro, máximo 1-2 por semana
 - Dá ao Bruno uma plataforma para uma opinião forte que diferencia ele de qualquer outro criador
 - Alcance universal: qualquer pessoa entende o gancho, não só quem é de marketing
 
-NOTA 4 — 2 a 4 por semana
-- Permite ao Bruno dar uma opinião genuína ou análise com a visão dele
-- Tem um ângulo humano real — não é só factual
-- Conecta com algo que o empresário vive no dia a dia
-- Pode ser sobre negócios, comportamento, cultura, psicologia, rotina
+NOTA 4 — deve aparecer todo dia, pelo menos 1 a 3 por edição
+- Notícia que dá ao Bruno uma plataforma para opinião, análise ou reflexão com a visão dele
+- Tem algum ângulo humano — não é 100% factual
+- Conecta com algo que o empresário vive, sente ou pensa
+- Pode ser sobre negócios, comportamento, cultura, psicologia, rotina, mercado
+- Não precisa ter virada perfeita — basta abrir espaço para o Bruno falar algo genuíno
 
 NOTA 3 OU MENOS — a maioria das notícias cai aqui
 - Puramente factual, sem espaço para opinião ou emoção

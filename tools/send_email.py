@@ -99,7 +99,8 @@ def build_html(articles: list, editorial: dict = None) -> str:
         </tr>"""
 
     worth_rows = "".join(article_row(a) for a in worth)
-    worth_section = f"""
+    if worth:
+        worth_section = f"""
         <tr>
           <td style="padding:20px 32px 8px 32px;">
             <p style="margin:0; font-size:13px; font-weight:bold; color:#16a34a; text-transform:uppercase; letter-spacing:1px;">
@@ -109,7 +110,19 @@ def build_html(articles: list, editorial: dict = None) -> str:
         </tr>
         <tr><td>
           <table width="100%" cellpadding="0" cellspacing="0">{worth_rows}</table>
-        </td></tr>""" if worth else ""
+        </td></tr>"""
+    else:
+        worth_section = """
+        <tr>
+          <td style="padding:32px; text-align:center;">
+            <p style="margin:0 0 8px 0; font-size:32px;">🔍</p>
+            <p style="margin:0 0 8px 0; font-size:15px; font-weight:bold; color:#1a1a1a;">Nenhuma pauta aprovada hoje</p>
+            <p style="margin:0; font-size:13px; color:#888; line-height:1.6;">
+              O pipeline rodou normalmente — as notícias de hoje não atingiram o critério mínimo para virar conteúdo lendário.<br>
+              Isso é esperado. Amanhã pode ser diferente.
+            </p>
+          </td>
+        </tr>"""
 
     editorial_section = build_editorial_section(editorial or {})
 
@@ -166,15 +179,12 @@ def send_email(articles: list, editorial: dict = None):
     if not all([sender, password, recipient]):
         raise ValueError("EMAIL_SENDER, EMAIL_PASSWORD, and EMAIL_RECIPIENT must be set in .env")
 
-    if not articles:
-        print("No articles to send. Skipping email.")
-        return
-
-    worth_count = sum(1 for a in articles if a.get("ai_vale"))
+    worth_count = sum(1 for a in articles if a.get("ai_vale")) if articles else 0
     html_body = build_html(articles, editorial)
 
     msg = MIMEMultipart("alternative")
-    msg["Subject"] = f"📰 {worth_count} pautas para conteúdo · {datetime.now().strftime('%d/%m/%Y')}"
+    subject = f"📰 {worth_count} pautas para conteúdo · {datetime.now().strftime('%d/%m/%Y')}" if worth_count > 0 else f"⚙️ Digest rodou — nenhuma pauta aprovada hoje · {datetime.now().strftime('%d/%m/%Y')}"
+    msg["Subject"] = subject
     msg["From"] = sender
     msg["To"] = recipient
     msg.attach(MIMEText(html_body, "html", "utf-8"))
