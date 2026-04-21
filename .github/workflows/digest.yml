@@ -17,7 +17,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install anthropic feedparser python-dotenv pytrends
+        run: pip install anthropic feedparser python-dotenv
 
       - name: Create .env
         run: |
@@ -37,11 +37,8 @@ jobs:
       - name: Evaluate with AI
         run: python tools/evaluate_news.py --input .tmp/news_filtered.json --output .tmp/news_evaluated.json
 
-      - name: Fetch Google Trends
-        run: python tools/fetch_trends.py --output .tmp/trends.json || echo "Trends unavailable, continuing."
-
       - name: Generate editorial
-        run: python tools/editorial.py --news .tmp/news_evaluated.json --trends .tmp/trends.json --output .tmp/editorial.json
+        run: python tools/editorial.py --news .tmp/news_evaluated.json --output .tmp/editorial.json
 
       - name: Send email
         run: python tools/send_email.py --input .tmp/news_evaluated.json --editorial .tmp/editorial.json

@@ -2,4 +2,3 @@ feedparser
 python-dotenv
 requests
 anthropic
-pytrends

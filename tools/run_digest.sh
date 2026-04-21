@@ -24,19 +24,14 @@ echo ""
 echo "[3/6] Avaliando potencial de conteúdo com IA..."
 python3 tools/evaluate_news.py --input .tmp/news_filtered.json --output .tmp/news_evaluated.json
 
-# Step 4: Google Trends
+# Step 4: Generate editorial
 echo ""
-echo "[4/6] Buscando tendências no Google Trends..."
-python3 tools/fetch_trends.py --output .tmp/trends.json || echo "  Trends indisponível, continuando sem."
+echo "[4/5] Gerando curadoria editorial..."
+python3 tools/editorial.py --news .tmp/news_evaluated.json --output .tmp/editorial.json
 
-# Step 5: Generate editorial
+# Step 5: Send email
 echo ""
-echo "[5/6] Gerando curadoria editorial..."
-python3 tools/editorial.py --news .tmp/news_evaluated.json --trends .tmp/trends.json --output .tmp/editorial.json
-
-# Step 6: Send email
-echo ""
-echo "[6/6] Enviando e-mail..."
+echo "[5/5] Enviando e-mail..."
 python3 tools/send_email.py --input .tmp/news_evaluated.json --editorial .tmp/editorial.json
 
 echo ""

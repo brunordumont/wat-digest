@@ -42,15 +42,6 @@ def build_editorial_section(editorial: dict) -> str:
           <p style="margin:0; font-size:11px; color:#888; font-style:italic;">Formato: {pick.get('formato_sugerido', '')}</p>
         </div>"""
 
-    trends_html = ""
-    for trend in trends:
-        trends_html += f"""
-        <div style="margin-bottom:12px;">
-          <p style="margin:0 0 2px 0; font-size:12px; font-weight:bold; color:#7c3aed;">🔥 {trend.get('assunto', '')}</p>
-          <p style="margin:0 0 2px 0; font-size:12px; color:#555;">{trend.get('conexao_com_negocio', '')}</p>
-          <p style="margin:0; font-size:12px; color:#1a1a1a;"><strong>Ângulo do Bruno:</strong> {trend.get('angulo', '')}</p>
-        </div>"""
-
     return f"""
     <tr>
       <td style="background:#1a1a1a; padding:24px 32px 12px 32px;">
@@ -64,8 +55,6 @@ def build_editorial_section(editorial: dict) -> str:
       <td style="background:#fafafa; padding:20px 32px;">
         <p style="margin:0 0 16px 0; font-size:12px; font-weight:bold; color:#333; text-transform:uppercase; letter-spacing:1px;">Melhores Pautas</p>
         {picks_html}
-        <p style="margin:16px 0 12px 0; font-size:12px; font-weight:bold; color:#7c3aed; text-transform:uppercase; letter-spacing:1px;">Em Alta Agora</p>
-        {trends_html}
       </td>
     </tr>"""
 
