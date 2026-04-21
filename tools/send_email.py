@@ -35,9 +35,10 @@ def build_editorial_section(editorial: dict) -> str:
     for i, pick in enumerate(top_picks, 1):
         picks_html += f"""
         <div style="margin-bottom:16px; padding-bottom:16px; border-bottom:1px solid #eee;">
-          <p style="margin:0 0 4px 0; font-size:12px; font-weight:bold; color:#1a1a1a;">#{i} {pick.get('titulo', '')}</p>
-          <p style="margin:0 0 4px 0; font-size:12px; color:#555;"><strong>Por que hoje:</strong> {pick.get('porque_hoje', '')}</p>
-          <p style="margin:0 0 4px 0; font-size:12px; color:#1a1a1a;"><strong>Ângulo:</strong> {pick.get('angulo_profundo', '')}</p>
+          <p style="margin:0 0 6px 0; font-size:12px; font-weight:bold; color:#1a1a1a;">#{i} {pick.get('titulo', '')}</p>
+          <p style="margin:0 0 4px 0; font-size:12px; color:#555;"><strong>Pergunta:</strong> {pick.get('pergunta_obvia', '')}</p>
+          <p style="margin:0 0 4px 0; font-size:12px; color:#16a34a;"><strong>A virada:</strong> {pick.get('a_virada', '')}</p>
+          <p style="margin:0 0 4px 0; font-size:12px; color:#1a1a1a;"><strong>O que o empresário vai sentir:</strong> {pick.get('conexao_humana', '')}</p>
           <p style="margin:0; font-size:11px; color:#888; font-style:italic;">Formato: {pick.get('formato_sugerido', '')}</p>
         </div>"""
 

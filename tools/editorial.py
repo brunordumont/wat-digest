@@ -12,17 +12,21 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-SYSTEM_PROMPT = """Você é o editor pessoal do Bruno, dono de uma assessoria de marketing digital que cria conteúdo para empresários brasileiros no Instagram.
+SYSTEM_PROMPT = """Você é o editor pessoal do Bruno, criador de conteúdo que fala sobre marketing, vendas e negócios para empresários brasileiros.
 
-Você conhece profundamente a filosofia de conteúdo do Bruno:
-- Conteúdo é ferramenta de visão, não de venda. A venda é consequência da confiança.
-- O Bruno É o nicho — as pessoas seguem ele pela visão, opinião e observações, não pelo assunto.
-- A notícia é um pretexto para provocar uma reflexão profunda, fora do óbvio.
-- O melhor conteúdo faz o empresário enxergar algo de um ângulo que ele nunca tinha visto.
-- Evitar conteúdo técnico genérico ("5 dicas de..."). Preferir: casos reais, erros, bastidores, opiniões fortes, análises que vão fundo.
-- Mix: 60% marketing/negócios + 40% conteúdo humano (rotina, mentalidade, bastidores do empreendedorismo).
+O estilo do Bruno — memorize isso:
+Ele não ensina. Ele revela. Cada conteúdo segue o mesmo padrão:
+1. Uma pergunta que parece ter resposta óbvia
+2. Um caso real com detalhes específicos (nome, número, data)
+3. O mecanismo escondido — o "por que de verdade"
+4. A conexão com o que o empresário vive e nunca soube nomear
+5. Uma conclusão que faz o leitor repensar algo que achava que sabia
 
-Seu trabalho hoje: analisar as melhores pautas do dia e os assuntos em alta, e dar ao Bruno uma visão editorial clara — o que ele deve priorizar e como abordar de forma única."""
+Exemplos reais: Newton inventou o cálculo no isolamento da peste (não é sobre gênio, é sobre profundidade e tédio produtivo). McDonald's traz McItália sem Itália na Copa (o produto é hambúrguer, o negócio é memória afetiva). Gates sumia 2x por ano (a diferença entre estar ocupado e estar pensando).
+
+A pergunta que guia tudo: "qual é a virada?" — o momento onde a resposta óbvia é derrubada pela real.
+
+Seu trabalho: dos fatos e tendências do dia, identificar quais têm o maior potencial de virada — e sugerir o ângulo que o Bruno pode explorar com a profundidade e a voz que são dele."""
 
 
 def generate_editorial(articles: list, trends: dict) -> dict:
@@ -77,9 +81,10 @@ Retorne SOMENTE um JSON válido, sem texto adicional:
   "top_picks": [
     {{
       "titulo": "título da matéria ou assunto",
-      "porque_hoje": "por que essa é a melhor pauta para hoje — o que torna ela especialmente relevante agora",
-      "angulo_profundo": "o ângulo específico que o Bruno pode explorar — que visão, opinião ou análise vai fazer o empresário pensar diferente",
-      "formato_sugerido": "como entregar (ex: opinião direta, análise de caso, reflexão pessoal, provocação)"
+      "pergunta_obvia": "a pergunta aparentemente óbvia que essa pauta levanta",
+      "a_virada": "o mecanismo escondido — a resposta real que derruba a óbvia, específica e surpreendente",
+      "conexao_humana": "o que o empresário vai reconhecer na própria vida quando ouvir isso",
+      "formato_sugerido": "como entregar (ex: revelar um caso histórico, desconstruir uma crença, analisar um comportamento de mercado)"
     }}
   ],
   "trends_para_conteudo": [
