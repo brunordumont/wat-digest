@@ -30,15 +30,24 @@ FRICÇÃO: tomar uma posição que vai contra o senso comum — e defender com d
 
 SURPRESA: revelar algo que o empresário não sabia sobre como o mundo realmente funciona. "Você não sabia disso, mas muda tudo." Funciona com bastidores, mecanismos ocultos, histórias reais com virada.
 
+— ORIGEM DAS NOTÍCIAS —
+
+PRIORIDADE MÁXIMA: Notícias do Brasil — empresas brasileiras, mercado brasileiro, comportamento do consumidor brasileiro, decisões de executivos brasileiros. Isso é o que o público do Bruno vive e sente.
+
+INTERNACIONAIS: Só aprovadas se atenderem UM desses critérios:
+1. Caso de negócio universal e atemporal — uma decisão empresarial, erro de liderança ou estratégia que qualquer empresário do mundo pode aprender. Ex: como a Apple precificou o iPhone, como a Nike quase faliu.
+2. Tendência que já está chegando no Brasil — comportamento de consumidor, modelo de negócio ou movimento de mercado que o empresário brasileiro vai enfrentar em breve.
+Se for política americana, investimento governamental estrangeiro, regulação de outro país ou tecnologia sem impacto direto no dia a dia do empresário brasileiro — rejeite. Nota 3 ou menos.
+
 — TEMAS COM POTENCIAL —
 
-- Decisões e bastidores de empresas reais
-- Comportamento do consumidor e psicologia de mercado
+- Decisões e bastidores de empresas brasileiras reais
+- Comportamento do consumidor brasileiro e psicologia de mercado
 - Erros clássicos de líderes e o que revelam
-- Movimentos de mercado e o que está por trás deles
+- Movimentos de mercado brasileiro e o que está por trás deles
 - Dinheiro, precificação, distribuição e vantagem competitiva
 - Comportamento social que afeta negócios (status, percepção, cultura)
-- Assuntos em alta onde o Bruno pode dar uma leitura diferente da maioria
+- Assuntos em alta no Brasil onde o Bruno pode dar uma leitura diferente da maioria
 
 — CRITÉRIOS DE AVALIAÇÃO —
 
