@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(defaults read:*)",
+      "Bash(chmod +x \"/Users/bruno/Teste Claude Code/tools/run_digest.sh\")",
+      "Skill(claude-api)",
+      "Skill(claude-api:*)",
+      "Bash(pip install:*)"
+    ]
+  }
+}

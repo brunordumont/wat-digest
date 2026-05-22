@@ -7,6 +7,7 @@ Requires: EMAIL_SENDER, EMAIL_PASSWORD, EMAIL_RECIPIENT in .env
 
 import os
 import json
+import re
 import argparse
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -29,7 +30,6 @@ def build_editorial_section(editorial: dict) -> str:
 
     nota_editorial = editorial.get("nota_editorial", "")
     top_picks = editorial.get("top_picks", [])
-    trends = editorial.get("trends_para_conteudo", [])
 
     picks_html = ""
     for i, pick in enumerate(top_picks, 1):
@@ -46,7 +46,7 @@ def build_editorial_section(editorial: dict) -> str:
     <tr>
       <td style="background:#1a1a1a; padding:24px 32px 12px 32px;">
         <p style="margin:0; font-size:13px; font-weight:bold; color:#fff; text-transform:uppercase; letter-spacing:1px;">
-          📋 Curadoria do Dia
+          Curadoria do Dia
         </p>
         <p style="margin:8px 0 0 0; font-size:13px; color:#aaa; line-height:1.6;">{nota_editorial}</p>
       </td>
@@ -62,8 +62,12 @@ def build_editorial_section(editorial: dict) -> str:
 def build_html(articles: list, editorial: dict = None) -> str:
     date_str = datetime.now().strftime("%d/%m/%Y")
 
-    worth = sorted(articles, key=lambda x: x.get("ai_nota", 0), reverse=True)[:5]
-    worth = [a for a in worth if a.get("ai_nota", 0) >= 4]
+    all_worth = sorted(articles, key=lambda x: x.get("ai_nota", 0), reverse=True)
+    all_worth = [a for a in all_worth if a.get("ai_nota", 0) >= 4]
+    total_worth = len(all_worth)
+
+    top10 = all_worth[:10]
+    rest = all_worth[10:20]
 
     def article_row(a: dict) -> str:
         pub = a.get("published_at", "")[:10]
@@ -76,13 +80,13 @@ def build_html(articles: list, editorial: dict = None) -> str:
         if nota >= 4 and abordagem:
             ai_block = f"""
             <div style="background:#f0fdf4; border-left:3px solid #16a34a; padding:10px 12px; margin-top:10px; border-radius:0 4px 4px 0;">
-              <p style="margin:0 0 6px 0; font-size:11px; font-weight:bold; color:#16a34a; text-transform:uppercase;">💡 Como abordar</p>
+              <p style="margin:0 0 4px 0; font-size:11px; font-weight:bold; color:#16a34a; text-transform:uppercase;">Como abordar</p>
               <p style="margin:0; font-size:13px; color:#1a1a1a;">{abordagem}</p>
             </div>"""
 
         score_badge = f'<span style="background:{color}; color:#fff; font-size:11px; padding:2px 8px; border-radius:12px; margin-left:8px;">{stars} {nota}/5</span>' if nota else ""
 
-        desc = a.get('description', '')
+        desc = re.sub(r'<[^>]+>', '', a.get('description', '') or '').strip()
         desc_short = desc[:220] + ('...' if len(desc) > 220 else '')
 
         return f"""
@@ -94,80 +98,99 @@ def build_html(articles: list, editorial: dict = None) -> str:
             </a>
             <p style="margin:8px 0 0 0; font-size:13px; color:#555; line-height:1.5;">{desc_short}</p>
             {ai_block}
-            <p style="margin:10px 0 0 0;"><a href="{a.get('url','')}" style="font-size:12px; color:#0066cc;">Ler matéria →</a></p>
+            <p style="margin:10px 0 0 0;"><a href="{a.get('url','')}" style="font-size:12px; color:#0066cc;">Ler materia</a></p>
           </td>
         </tr>"""
 
-    worth_rows = "".join(article_row(a) for a in worth)
-    if worth:
+    def rest_row(a: dict) -> str:
+        nota = a.get("ai_nota", 0)
+        color = SCORE_COLORS.get(nota, "#888")
+        pub = a.get("published_at", "")[:10]
+        return f"""
+        <tr>
+          <td style="padding:10px 16px; border-bottom:1px solid #f0f0f0; vertical-align:top;">
+            <p style="margin:0 0 2px 0; font-size:11px; color:#888;">{a.get('source','')} · {pub} <span style="background:{color}; color:#fff; font-size:10px; padding:1px 6px; border-radius:8px; margin-left:4px;">{nota}/5</span></p>
+            <a href="{a.get('url','')}" style="font-size:13px; font-weight:bold; color:#1a1a1a; text-decoration:none; line-height:1.4;">{a.get('title','')}</a>
+            <p style="margin:4px 0 0 0; font-size:12px; color:#555;">{a.get('ai_abordagem', '')}</p>
+          </td>
+        </tr>"""
+
+    if top10:
+        top_rows = "".join(article_row(a) for a in top10)
         worth_section = f"""
         <tr>
           <td style="padding:20px 32px 8px 32px;">
             <p style="margin:0; font-size:13px; font-weight:bold; color:#16a34a; text-transform:uppercase; letter-spacing:1px;">
-              Pautas Aprovadas ({len(worth)})
+              Top 10 Pautas ({total_worth} aprovadas no total)
             </p>
           </td>
         </tr>
         <tr><td>
-          <table width="100%" cellpadding="0" cellspacing="0">{worth_rows}</table>
+          <table width="100%" cellpadding="0" cellspacing="0">{top_rows}</table>
         </td></tr>"""
     else:
         worth_section = """
         <tr>
           <td style="padding:32px; text-align:center;">
-            <p style="margin:0 0 8px 0; font-size:32px;">🔍</p>
             <p style="margin:0 0 8px 0; font-size:15px; font-weight:bold; color:#1a1a1a;">Nenhuma pauta aprovada hoje</p>
             <p style="margin:0; font-size:13px; color:#888; line-height:1.6;">
-              O pipeline rodou normalmente — as notícias de hoje não atingiram o critério mínimo para virar conteúdo lendário.<br>
-              Isso é esperado. Amanhã pode ser diferente.
+              O pipeline rodou normalmente. Amanha pode ser diferente.
             </p>
           </td>
         </tr>"""
 
+    rest_section = ""
+    if rest:
+        rest_rows = "".join(rest_row(a) for a in rest)
+        rest_section = f"""
+        <tr>
+          <td style="padding:20px 32px 8px 32px; border-top:2px solid #eee;">
+            <p style="margin:0; font-size:12px; font-weight:bold; color:#888; text-transform:uppercase; letter-spacing:1px;">
+              Outras {len(rest)} pautas aprovadas
+            </p>
+          </td>
+        </tr>
+        <tr><td>
+          <table width="100%" cellpadding="0" cellspacing="0">{rest_rows}</table>
+        </td></tr>"""
+
     editorial_section = build_editorial_section(editorial or {})
 
-    html = f"""
-    <!DOCTYPE html>
-    <html>
-    <head><meta charset="UTF-8"></head>
-    <body style="font-family: Arial, sans-serif; background:#f5f5f5; margin:0; padding:0;">
-      <table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f5; padding:20px 0;">
-        <tr><td align="center">
-          <table width="640" cellpadding="0" cellspacing="0" style="background:#fff; border-radius:8px; overflow:hidden;">
+    html = f"""<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"></head>
+<body style="font-family: Arial, sans-serif; background:#f5f5f5; margin:0; padding:0;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f5; padding:20px 0;">
+    <tr><td align="center">
+      <table width="640" cellpadding="0" cellspacing="0" style="background:#fff; border-radius:8px; overflow:hidden;">
 
-            <!-- Header -->
-            <tr>
-              <td style="background:#1a1a1a; padding:24px 32px;">
-                <p style="margin:0; color:#888; font-size:12px; text-transform:uppercase; letter-spacing:1px;">Digest Diário · {date_str}</p>
-                <h1 style="margin:8px 0 0 0; color:#fff; font-size:22px;">Marketing & Negócios</h1>
-                <p style="margin:8px 0 0 0; color:#aaa; font-size:13px;">
-                  <span style="color:#4ade80; font-weight:bold;">{len(worth)} pautas aprovadas</span> para criar conteúdo hoje
-                </p>
-              </td>
-            </tr>
+        <tr>
+          <td style="background:#1a1a1a; padding:24px 32px;">
+            <p style="margin:0; color:#888; font-size:12px; text-transform:uppercase; letter-spacing:1px;">Digest Diario · {date_str}</p>
+            <h1 style="margin:8px 0 0 0; color:#fff; font-size:22px;">Marketing & Negocios</h1>
+            <p style="margin:8px 0 0 0; color:#aaa; font-size:13px;">
+              <span style="color:#4ade80; font-weight:bold;">{total_worth} pautas aprovadas</span> para criar conteudo hoje
+            </p>
+          </td>
+        </tr>
 
-            <!-- Articles -->
-            {worth_section}
+        {worth_section}
+        {rest_section}
+        {editorial_section}
 
-            <!-- Editorial -->
-            {editorial_section}
+        <tr>
+          <td style="padding:24px 32px; background:#f9f9f9; border-top:1px solid #eee;">
+            <p style="margin:0; font-size:12px; color:#999; text-align:center;">
+              Curadoria com IA · Agente WAT
+            </p>
+          </td>
+        </tr>
 
-            <!-- Footer -->
-            <tr>
-              <td style="padding:24px 32px; background:#f9f9f9; border-top:1px solid #eee;">
-                <p style="margin:0; font-size:12px; color:#999; text-align:center;">
-                  Fontes: Exame · Forbes BR · InfoMoney · Valor Econômico · HBR · Fast Company · Inc.<br>
-                  Curadoria com IA · Agente WAT
-                </p>
-              </td>
-            </tr>
-
-          </table>
-        </td></tr>
       </table>
-    </body>
-    </html>
-    """
+    </td></tr>
+  </table>
+</body>
+</html>"""
     return html
 
 
@@ -183,7 +206,8 @@ def send_email(articles: list, editorial: dict = None):
     html_body = build_html(articles, editorial)
 
     msg = MIMEMultipart("alternative")
-    subject = f"📰 {worth_count} pautas para conteúdo · {datetime.now().strftime('%d/%m/%Y')}" if worth_count > 0 else f"⚙️ Digest rodou — nenhuma pauta aprovada hoje · {datetime.now().strftime('%d/%m/%Y')}"
+    date_str = datetime.now().strftime('%d/%m/%Y')
+    subject = f"📰 Bruno, aqui estão as {worth_count} pautas para conteúdo · {date_str}" if worth_count > 0 else f"📰 Bruno, nenhuma pauta aprovada hoje · {date_str}"
     msg["Subject"] = subject
     msg["From"] = sender
     msg["To"] = recipient

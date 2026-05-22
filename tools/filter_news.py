@@ -41,7 +41,7 @@ def filter_articles(articles: list, min_description_length: int = 50) -> list:
             "description": description,
             "url": url,
             "source": source,
-            "published_at": article.get("publishedAt", ""),
+            "published_at": article.get("published_at") or article.get("publishedAt", ""),
             "content_hook": description[:200] + "..." if len(description) > 200 else description,
         })
 
