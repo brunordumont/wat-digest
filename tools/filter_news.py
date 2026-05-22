@@ -12,30 +12,31 @@ from datetime import datetime
 
 # Fontes internacionais que só passam se tiverem gancho explícito com Brasil
 INTERNATIONAL_ONLY_SOURCES = [
-    "scientificamerican.com",
-    "bigthink.com",
-    "feedburner.com/TheAtlantic",
-    "theatlantic.com",
-    "wired.com",
-    "fastcompany.com",
-    "inc.com",
-    "businessinsider.com",
-    "marketingdive.com",
-    "marketingweek.com",
-    "notboring.co",
-    "hbr.org",
+    "scientificamerican.com", "scientific american",
+    "bigthink.com", "big think",
+    "feedburner.com/TheAtlantic", "theatlantic.com", "the atlantic",
+    "wired.com", "wired",
+    "fastcompany.com", "fast company",
+    "inc.com", "inc.",
+    "businessinsider.com", "business insider",
+    "marketingdive.com", "marketing dive",
+    "marketingweek.com", "marketing week",
+    "notboring.co", "not boring",
+    "hbr.org", "harvard business review",
     "harvardbusiness",
 ]
 
 BRAZIL_KEYWORDS = [
     "brasil", "brazil", "brasileiro", "brasileira", "são paulo", "rio de janeiro",
-    "mercado brasileiro", "empresas brasileiras", "real", "bndes", "ibge",
-    "embrapa", "petrobras", "vale ", "ambev", "itaú", "bradesco", "nubank",
+    "mercado brasileiro", "empresas brasileiras", "bndes", "ibge",
+    "embrapa", "petrobras", "ambev", "itaú", "bradesco", "nubank",
+    "r$ ", "reais", "economia brasileira",
 ]
 
 
-def is_international_source(url: str) -> bool:
-    return any(domain in url.lower() for domain in INTERNATIONAL_ONLY_SOURCES)
+def is_international_source(url: str, source: str = "") -> bool:
+    text = (url + " " + source).lower()
+    return any(domain in text for domain in INTERNATIONAL_ONLY_SOURCES)
 
 
 def has_brazil_hook(article: dict) -> bool:
@@ -68,7 +69,7 @@ def filter_articles(articles: list, min_description_length: int = 50) -> list:
             continue
 
         # International sources: only pass if there's an explicit Brazil hook
-        if is_international_source(url) and not has_brazil_hook(article):
+        if is_international_source(url, source) and not has_brazil_hook(article):
             continue
 
         seen_titles.add(title.lower())
