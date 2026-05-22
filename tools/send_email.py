@@ -66,8 +66,8 @@ def build_html(articles: list, editorial: dict = None) -> str:
     all_worth = [a for a in all_worth if a.get("ai_nota", 0) >= 4]
     total_worth = len(all_worth)
 
-    top10 = all_worth[:10]
-    rest = all_worth[10:20]
+    top10 = all_worth[:5]
+    rest = all_worth[5:15]
 
     def article_row(a: dict) -> str:
         pub = a.get("published_at", "")[:10]
@@ -121,7 +121,7 @@ def build_html(articles: list, editorial: dict = None) -> str:
         <tr>
           <td style="padding:20px 32px 8px 32px;">
             <p style="margin:0; font-size:13px; font-weight:bold; color:#16a34a; text-transform:uppercase; letter-spacing:1px;">
-              Top 10 Pautas ({total_worth} aprovadas no total)
+              Top 5 Pautas ({total_worth} aprovadas no total)
             </p>
           </td>
         </tr>
