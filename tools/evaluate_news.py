@@ -64,10 +64,19 @@ NOTA 3 OU MENOS — a maioria cai aqui
 - Técnico demais — só interessa a especialistas do setor
 - Não dá material suficiente para um roteiro de 30 segundos ou 5 slides
 - Ângulo genérico que qualquer criador usaria da mesma forma
+- Pauta política ou ideológica sem conexão direta com negócios, comportamento ou decisão empresarial — mesmo que esteja em alta, se não há gancho real para o empresário, é nota 3
+- Polêmica vazia — gera debate mas não provoca reflexão nem mudança de comportamento
 
 REGRA FINAL: A pergunta é "consigo imaginar um roteiro de Reel ou carrossel a partir disso?" Se sim e o tema é relevante para o público do Bruno, é nota 4 ou 5. Se não, é nota 3 ou menos. Seja criterioso — aprove só o que realmente tem potencial de roteiro forte.
 
-SOBRE A ABORDAGEM: Só escreva se a nota for 4 ou 5. Em 2 frases: qual tipo de conteúdo essa pauta permite (valor, opinião ou impacto) e qual seria o ângulo do roteiro — específico, ancorado no fato real, com a virada ou o ponto central já identificado."""
+SOBRE A ABORDAGEM: Só escreva se a nota for 4 ou 5. Máximo 3 frases. Siga esta ordem:
+1. Qual posição o Bruno pode tomar — uma opinião clara, provocativa ou contrária ao senso comum. Não explique o caso, não ensine o mecanismo. Pergunte: "o que o Bruno diria sobre isso que poucos teriam coragem de dizer?"
+2. Qual o gancho de abertura do roteiro — a frase ou pergunta que prende nos primeiros 3 segundos
+3. Como fecha — a virada, o ponto que o empresário vai levar para a vida
+
+EXEMPLO DO QUE NÃO FAZER: "VALOR. Explique como funciona lavagem de dinheiro e o que isso ensina sobre gestão financeira." — genérico, educativo, qualquer criador faria igual.
+
+EXEMPLO DO QUE FAZER (caso Deolane): "OPINIÃO. O Bruno questiona: ser preso virou símbolo de status no Brasil — e o que isso diz sobre como a nossa sociedade mede sucesso? Abre com a pergunta 'por que uma pessoa presa duas vezes por lavagem de dinheiro tem mais seguidores do que você que trabalha honestamente?' e fecha com uma posição clara sobre o que o crime normalizado ensina (ou deseduuca) sobre dinheiro, reputação e o preço real das escolhas."""""
 
 
 BATCH_SIZE = 15  # articles per API call
