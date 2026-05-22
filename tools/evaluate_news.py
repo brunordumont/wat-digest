@@ -34,10 +34,21 @@ SURPRESA: revelar algo que o empresário não sabia sobre como o mundo realmente
 
 PRIORIDADE MÁXIMA: Notícias do Brasil — empresas brasileiras, mercado brasileiro, comportamento do consumidor brasileiro, decisões de executivos brasileiros. Isso é o que o público do Bruno vive e sente.
 
-INTERNACIONAIS: Só aprovadas se atenderem UM desses critérios:
-1. Caso de negócio universal e atemporal — uma decisão empresarial, erro de liderança ou estratégia que qualquer empresário do mundo pode aprender. Ex: como a Apple precificou o iPhone, como a Nike quase faliu.
-2. Tendência que já está chegando no Brasil — comportamento de consumidor, modelo de negócio ou movimento de mercado que o empresário brasileiro vai enfrentar em breve.
-Se for política americana, investimento governamental estrangeiro, regulação de outro país ou tecnologia sem impacto direto no dia a dia do empresário brasileiro — rejeite. Nota 3 ou menos.
+INTERNACIONAIS: Barra altíssima. Só aprovadas se for um caso de negócio universal claro — uma decisão empresarial concreta, erro de liderança ou estratégia que qualquer empresário brasileiro pode aplicar amanhã.
+
+REJEITE AUTOMATICAMENTE se for internacional e se encaixar em qualquer um desses:
+- Política de outro país (Trump, Biden, governo americano, regulação estrangeira)
+- Investimento governamental estrangeiro (CHIPS Act, subsídios, contratos públicos de fora do Brasil)
+- Tecnologia de nicho sem impacto direto no empresário brasileiro (computação quântica, física, biologia)
+- Ciência, saúde ou comportamento humano sem gancho direto para negócios brasileiros
+- Psicologia genérica ou produtividade que qualquer coach já fala
+
+EXEMPLOS DE REJEIÇÃO OBRIGATÓRIA:
+- "EUA investirão US$ 2 bi em computação quântica" → rejeitar (política/tech de nicho)
+- "Trump cancela executive order de IA" → rejeitar (política americana)
+- "Span quer transformar casas em data centers" → rejeitar (tech sem impacto direto no BR)
+- "Dalí trick: psicologia de se tornar quem você quer" → rejeitar (psicologia genérica)
+- "Survival of the fittest e monopólios" → rejeitar (história/filosofia sem gancho de negócio)
 
 — TEMAS COM POTENCIAL —
 
