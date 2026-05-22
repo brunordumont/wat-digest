@@ -63,10 +63,10 @@ def build_html(articles: list, editorial: dict = None) -> str:
     date_str = datetime.now().strftime("%d/%m/%Y")
 
     all_worth = sorted(articles, key=lambda x: x.get("ai_nota", 0), reverse=True)
-    all_worth = [a for a in all_worth if a.get("ai_nota", 0) >= 4]
-    total_worth = len(all_worth)
-
-    top10 = all_worth[:10]
+    nota5 = [a for a in all_worth if a.get("ai_nota", 0) == 5]
+    nota4 = [a for a in all_worth if a.get("ai_nota", 0) == 4]
+    top10 = nota5 if nota5 else nota4
+    total_worth = len(nota5) + len(nota4)
     rest = []
 
     def article_row(a: dict) -> str:
@@ -135,7 +135,7 @@ def build_html(articles: list, editorial: dict = None) -> str:
         <tr>
           <td style="padding:20px 32px 8px 32px;">
             <p style="margin:0; font-size:13px; font-weight:bold; color:#16a34a; text-transform:uppercase; letter-spacing:1px;">
-              Top 10 Pautas do dia
+              {"Pautas Nota 5" if nota5 else "Pautas Nota 4"} — {len(top10)} hoje
             </p>
           </td>
         </tr>
