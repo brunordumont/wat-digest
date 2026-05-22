@@ -72,7 +72,7 @@ NÃO faça: resumo da notícia, explicação do mecanismo, ângulo genérico que
 FAÇA: a interpretação que só o Bruno daria, ancorada no fato real."""
 
 
-BATCH_SIZE = 15  # articles per API call
+BATCH_SIZE = 10  # articles per API call
 
 
 def evaluate_batch(client, articles: list, offset: int) -> list:
@@ -108,7 +108,7 @@ Avalie todos os {len(articles)} artigos. nota de 1 a 5."""
 
     response = client.messages.create(
         model="claude-opus-4-6",
-        max_tokens=8000,
+        max_tokens=16000,
         system=[{
             "type": "text",
             "text": SYSTEM_PROMPT,
@@ -124,8 +124,24 @@ Avalie todos os {len(articles)} artigos. nota de 1 a 5."""
         print(f"  WARNING: Could not parse JSON for batch starting at {offset + 1}")
         return []
 
-    result = json.loads(json_match.group())
-    return result.get("avaliacoes", [])
+    try:
+        result = json.loads(json_match.group())
+        return result.get("avaliacoes", [])
+    except json.JSONDecodeError as e:
+        print(f"  WARNING: JSON decode error for batch starting at {offset + 1}: {e}")
+        # Tenta recuperar avaliações parciais truncando no último objeto completo
+        raw = json_match.group()
+        last_valid = raw.rfind('},')
+        if last_valid > 0:
+            try:
+                fixed = raw[:last_valid + 1] + ']}'
+                fixed = re.sub(r'"avaliacoes":\s*\[', '"avaliacoes": [', fixed)
+                result = json.loads('{"avaliacoes": [' + raw[raw.find('[') + 1:last_valid + 1] + ']}')
+                print(f"  Recovered {len(result.get('avaliacoes', []))} partial evaluations")
+                return result.get("avaliacoes", [])
+            except Exception:
+                pass
+        return []
 
 
 def evaluate_articles(articles: list) -> list:
