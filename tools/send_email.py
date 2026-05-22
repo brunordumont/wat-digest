@@ -66,8 +66,8 @@ def build_html(articles: list, editorial: dict = None) -> str:
     all_worth = [a for a in all_worth if a.get("ai_nota", 0) >= 4]
     total_worth = len(all_worth)
 
-    top10 = all_worth[:5]
-    rest = all_worth[5:15]
+    top10 = all_worth[:10]
+    rest = []
 
     def article_row(a: dict) -> str:
         pub = a.get("published_at", "")[:10]
@@ -78,10 +78,24 @@ def build_html(articles: list, editorial: dict = None) -> str:
 
         ai_block = ""
         if nota >= 4 and abordagem:
+            import re as _re
+            def _fmt(label, key):
+                m = _re.search(rf'{key}:\s*(.+?)(?=\s+(?:POSIÇÃO|GANCHO|VIRADA|TIPO):|$)', abordagem, _re.IGNORECASE | _re.DOTALL)
+                val = m.group(1).strip().rstrip('.') if m else ""
+                if not val:
+                    return ""
+                colors = {"TIPO": "#6366f1", "POSIÇÃO": "#dc2626", "GANCHO": "#0066cc", "VIRADA": "#16a34a"}
+                c = colors.get(key, "#555")
+                return f'<p style="margin:0 0 8px 0; font-size:13px; color:#1a1a1a;"><span style="font-size:10px; font-weight:bold; color:{c}; text-transform:uppercase; letter-spacing:0.5px;">{label} · </span>{val}</p>'
+
+            rows = _fmt("Tipo", "TIPO") + _fmt("Posição", "POSIÇÃO") + _fmt("Gancho", "GANCHO") + _fmt("Virada", "VIRADA")
+            if not rows:
+                rows = f'<p style="margin:0; font-size:13px; color:#1a1a1a;">{abordagem}</p>'
+
             ai_block = f"""
-            <div style="background:#f0fdf4; border-left:3px solid #16a34a; padding:10px 12px; margin-top:10px; border-radius:0 4px 4px 0;">
-              <p style="margin:0 0 4px 0; font-size:11px; font-weight:bold; color:#16a34a; text-transform:uppercase;">Como abordar</p>
-              <p style="margin:0; font-size:13px; color:#1a1a1a;">{abordagem}</p>
+            <div style="background:#f0fdf4; border-left:3px solid #16a34a; padding:10px 14px; margin-top:10px; border-radius:0 4px 4px 0;">
+              <p style="margin:0 0 8px 0; font-size:10px; font-weight:bold; color:#16a34a; text-transform:uppercase; letter-spacing:1px;">Como explorar</p>
+              {rows}
             </div>"""
 
         score_badge = f'<span style="background:{color}; color:#fff; font-size:11px; padding:2px 8px; border-radius:12px; margin-left:8px;">{stars} {nota}/5</span>' if nota else ""
@@ -121,7 +135,7 @@ def build_html(articles: list, editorial: dict = None) -> str:
         <tr>
           <td style="padding:20px 32px 8px 32px;">
             <p style="margin:0; font-size:13px; font-weight:bold; color:#16a34a; text-transform:uppercase; letter-spacing:1px;">
-              Top 5 Pautas ({total_worth} aprovadas no total)
+              Top 10 Pautas do dia
             </p>
           </td>
         </tr>

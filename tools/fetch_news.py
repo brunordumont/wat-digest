@@ -42,7 +42,6 @@ DEFAULT_SOURCES = [
     # Internacional — geral (sem filtro de keyword, IA decide)
     "https://feeds.feedburner.com/TheAtlantic",
     "https://www.wired.com/feed/rss",
-    "https://www.scientificamerican.com/platform/syndication/rss/",
     "https://bigthink.com/feed/",
     "https://revistaoeste.com/feed/",
 ]
@@ -66,7 +65,6 @@ GENERAL_SOURCES = [
     "veja.abril.com.br",
     "feedburner.com/TheAtlantic",
     "wired.com",
-    "scientificamerican.com",
     "bigthink.com",
     "revistaoeste.com",
     "cbinsights.com",

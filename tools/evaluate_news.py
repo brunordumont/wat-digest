@@ -63,13 +63,15 @@ NOTA 3 OU MENOS — a grande maioria
 
 REGRA FINAL: A pergunta não é "essa notícia é relevante?" — é "o Bruno consegue extrair uma tese, fricção ou surpresa que ninguém mais teria coragem ou visão de extrair?" Se sim, é 4 ou 5. Se não, é 3 ou menos.
 
-SOBRE A ABORDAGEM: Só escreva se a nota for 4 ou 5. Máximo 3 frases diretas:
-1. Qual a posição ou tese do Bruno — clara, com coragem, sem ser óbvia
-2. Como abre o roteiro — a frase ou pergunta que prende nos primeiros 3 segundos
-3. Como fecha — a virada ou provocação que o empresário leva para a vida
+SOBRE A ABORDAGEM: Só escreva se a nota for 4 ou 5. Estruture em 4 linhas curtas:
 
-NÃO faça: resumo da notícia, explicação do mecanismo, ângulo genérico que qualquer criador usaria.
-FAÇA: a interpretação que só o Bruno daria, ancorada no fato real."""
+TIPO: Identifique se é TESE, FRICÇÃO ou SURPRESA — e por quê essa notícia encaixa nesse tipo.
+POSIÇÃO: A opinião do Bruno em 1 frase. Tem que ser uma tomada de posição real, com coragem — não um resumo da notícia.
+GANCHO: A primeira frase do vídeo ou carrossel. Tem que prender em 3 segundos. Começa com fato concreto, dado ou pergunta que gera tensão.
+VIRADA: O que o empresário leva para a vida. A conclusão que ninguém esperava ou que vai contra o senso comum.
+
+NÃO faça: resumo da notícia, explicação do mecanismo, ângulo óbvio que qualquer criador usaria.
+FAÇA: análise cirúrgica do potencial real dessa pauta nas mãos do Bruno."""
 
 
 BATCH_SIZE = 10  # articles per API call
@@ -99,7 +101,7 @@ Retorne SOMENTE um JSON válido, sem texto adicional, no seguinte formato:
       "vale": true,
       "nota": 4,
       "motivo": "Por que vale ou não vale como pauta (1-2 frases)",
-      "abordagem": "Que tipo de conteúdo essa notícia permite (valor, opinião ou impacto) e qual ângulo específico o Bruno pode explorar — ancorado no fato real (só se nota >= 4)"
+      "abordagem": "TIPO: [TESE/FRICÇÃO/SURPRESA] — motivo em 1 frase. POSIÇÃO: [tomada de posição do Bruno, com coragem]. GANCHO: [primeira frase do vídeo/carrossel]. VIRADA: [conclusão inesperada que o empresário leva]. Só preencher se nota >= 4."
     }}
   ]
 }}
