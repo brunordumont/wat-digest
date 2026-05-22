@@ -10,6 +10,38 @@ import json
 import argparse
 from datetime import datetime
 
+# Fontes internacionais que só passam se tiverem gancho explícito com Brasil
+INTERNATIONAL_ONLY_SOURCES = [
+    "scientificamerican.com",
+    "bigthink.com",
+    "feedburner.com/TheAtlantic",
+    "theatlantic.com",
+    "wired.com",
+    "fastcompany.com",
+    "inc.com",
+    "businessinsider.com",
+    "marketingdive.com",
+    "marketingweek.com",
+    "notboring.co",
+    "hbr.org",
+    "harvardbusiness",
+]
+
+BRAZIL_KEYWORDS = [
+    "brasil", "brazil", "brasileiro", "brasileira", "são paulo", "rio de janeiro",
+    "mercado brasileiro", "empresas brasileiras", "real", "bndes", "ibge",
+    "embrapa", "petrobras", "vale ", "ambev", "itaú", "bradesco", "nubank",
+]
+
+
+def is_international_source(url: str) -> bool:
+    return any(domain in url.lower() for domain in INTERNATIONAL_ONLY_SOURCES)
+
+
+def has_brazil_hook(article: dict) -> bool:
+    text = ((article.get("title") or "") + " " + (article.get("description") or "")).lower()
+    return any(kw in text for kw in BRAZIL_KEYWORDS)
+
 
 def filter_articles(articles: list, min_description_length: int = 50) -> list:
     seen_titles = set()
@@ -33,6 +65,10 @@ def filter_articles(articles: list, min_description_length: int = 50) -> list:
 
         # Skip articles with very short descriptions
         if len(description) < min_description_length:
+            continue
+
+        # International sources: only pass if there's an explicit Brazil hook
+        if is_international_source(url) and not has_brazil_hook(article):
             continue
 
         seen_titles.add(title.lower())
