@@ -18,6 +18,13 @@ fail() {
     exit 1
 }
 
+LOCK_FILE="/tmp/digest_$(date '+%Y-%m-%d').lock"
+if [ -f "$LOCK_FILE" ]; then
+    echo "Digest já enviado hoje. Abortando."
+    exit 0
+fi
+touch "$LOCK_FILE"
+
 echo "[1/5] Buscando notícias..."
 python3 tools/fetch_news.py --days 3 --output .tmp/news_raw.json || fail "fetch_news"
 
