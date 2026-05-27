@@ -30,6 +30,7 @@ Exemplo real: "Lula assina decreto com subsídio de R$ 0,44 por litro da gasolin
 
 SURPRESA: Revelar como algo realmente funciona — o mecanismo que o empresário não conhece mas que afeta diretamente ele.
 Funciona com bastidores, números ocultos, decisões que parecem irracionais mas têm lógica perversa por trás.
+Exemplo real: "Como a Louis Vuitton transformou a bola de futebol em objeto milionário e de desejo global" — isso não é notícia de moda. É uma aula de como precificação, escassez e associação de marca funcionam. Qualquer empresário pode aplicar essa lógica no próprio produto.
 
 — ORIGEM DAS NOTÍCIAS —
 
@@ -46,6 +47,7 @@ NOTA 5:
 - O gancho é universal — qualquer pessoa entende, não precisa ser do setor
 - Provoca compartilhamento: alguém vai querer mandar para outra pessoa
 - Só o Bruno teria coragem ou visão de extrair essa interpretação
+- Cases de marca, estratégia de preço, escassez, posicionamento — quando revelam o mecanismo por trás do sucesso (ex: como a LV transformou uma bola de futebol em objeto de desejo — isso é uma aula de branding aplicável a qualquer negócio)
 
 NOTA 4:
 - Permite posição clara e específica, ancorada em fato real
